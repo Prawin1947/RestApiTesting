@@ -1,0 +1,24 @@
+{
+    "First_Name": "praveen",
+    "Last_Name": "Mayakar",
+    "jobs": [
+        "tester",
+        "DEV"
+    ],
+    "id": 12,
+    "email": [
+        "test1@gmail.com",
+        "test2@gmail.com"
+    ],
+    "age": 29,
+    "Food": {
+        "lunch": "Rice",
+        "Dinner": [
+            "Curry",
+            "Chapati",
+            "milk"
+        ],
+        "breakfast": "Idly"
+    },
+    "createdAt": "2022-11-05T08:20:38.990Z"
+}

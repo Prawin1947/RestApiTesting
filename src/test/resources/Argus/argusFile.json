@@ -1,0 +1,128 @@
+[
+  {
+    "Door Num": "#111",
+    "SName": "Maykar",
+    "Owner": "Sushila",
+    "family members": [
+      {
+        "Member Id": 1001,
+        "Name": "Praveen",
+        "Gender": "Male",
+        "Age": 30,
+        "Qualification": "BE",
+        "Siblings":[
+          {
+          "Have a Siblings": true,
+          "Relation": "Sister",
+          "Age": 26,
+            "Studying": true,
+            "Working": false
+          }  ]
+      },
+
+      {
+        "Member Id": 1002,
+        "Name": "Pratibha",
+        "Gender": "Female",
+        "Age": 26,
+        "Qualification": "MD",
+        "Siblings":[
+          {
+            "Have a Siblings": true,
+            "Relation": "Brother",
+            "Age": 30,
+            "Studying": false,
+            "Working": true
+          }  ]
+      },
+
+      {
+        "Member Id": 1003,
+        "Name": "Bharati",
+        "Gender": "Female",
+        "Age": 26,
+        "Qualification": "BE",
+        "Siblings":null
+      }
+
+    ]
+  },
+
+  {
+    "Door Num": "#125",
+    "SName": "Sangolli",
+    "Owner": "Shivanand",
+    "family members": [
+      {
+        "Member Id": 1001,
+        "Name": "Akshata",
+        "Gender": "Female",
+        "Age": 27,
+        "Qualification": "MD",
+        "Siblings":[
+          {
+            "Have a Siblings": true,
+            "Relation": "Brother",
+            "Age": 25,
+            "Studying": false,
+            "Working": true
+          },
+          {
+            "Have a Siblings": true,
+            "Relation": "Brother",
+            "Age": 23,
+            "Studying": false,
+            "Working": true
+          }
+        ]
+      },
+
+      {
+        "Member Id": 1002,
+        "Name": "Indrajit",
+        "Gender": "Male",
+        "Age": 25,
+        "Qualification": "BE",
+        "Siblings":[
+          {
+            "Have a Siblings": true,
+            "Relation": "Sister",
+            "Age": 27,
+            "Studying": false,
+            "Working": true
+          },
+          {
+            "Have a Siblings": true,
+            "Relation": "Brother",
+            "Age": 23,
+            "Studying": true,
+            "Working": true
+          } ]
+      },
+
+      {
+        "Member Id": 1003,
+        "Name": "Devu",
+        "Gender": "Male",
+        "Age": 23,
+        "Qualification": "BA",
+        "Siblings":[
+          {
+            "Have a Siblings": true,
+            "Relation": "Sister",
+            "Age": 27,
+            "Studying": false,
+            "Working": true
+          },
+          {
+            "Have a Siblings": true,
+            "Relation": "Brother",
+            "Age": 25,
+            "Studying": false,
+            "Working": true
+          } ]
+      }
+
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "First_Name":"praveen",
+  "Last_Name":"Mayakar",
+  "age":"29",
+  "id": "12",
+  "jobs": ["Tester","Dev","DevOpsEng"],
+  "favFoods": {
+    "breakfast": "idly",
+    "lunch": "rece",
+    "Dinner":["Chapati", "Rice","milk"]
+  }
+}
