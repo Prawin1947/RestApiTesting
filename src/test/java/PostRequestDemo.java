@@ -2,6 +2,7 @@ import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import io.swagger.models.Path;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
@@ -12,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -56,7 +56,7 @@ public class PostRequestDemo {
     private static void readRequestBodyFromFileAndConvertToString()throws Exception {
 
         String path = System.getProperty("user.dir")+"/src/test/resources/requestJsons/postRequest.json";
-       byte[] bytes =  Files.readAllBytes(Paths.get(path));
+        byte[] bytes =  Files.readAllBytes(Paths.get(path));
         System.out.println("The request Body file is located at :~"+ path);
        String body = new String(bytes);
         body =  body.replace("12",String.valueOf(new Faker().number().numberBetween(1,15)));
@@ -86,7 +86,7 @@ public class PostRequestDemo {
     @Test
     private static void constructRequestBodyFromMap(){
 
-        Map<String,Object> bodyMap = new LinkedHashMap<>();
+        Map<String,Object> bodyMap = new LinkedHashMap();
         bodyMap.put("First_Name","praveen");
         bodyMap.put("Last_Name","Mayakar");
         bodyMap.put("email", "test@gmail.com");
@@ -95,7 +95,7 @@ public class PostRequestDemo {
 //        bodyMap.put("email", "test1@gmail.com");
         List<String> jobList = Arrays.asList("Tester","Dev","DevOpsEng");
         bodyMap.put("jobs",jobList);
-        Map<String,Object> foodMap = new LinkedHashMap<>();
+        Map<String,Object> foodMap = new LinkedHashMap();
         foodMap.put("breakfast","idly");
         foodMap.put("lunch","rice");
         List<String> dinnerList = Arrays.asList("Chapati", "Rice","milk");

@@ -9,14 +9,51 @@
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
+
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>7</source>-->
+<!--                    <target>7</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>7</source>
-                    <target>7</target>
-                </configuration>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>6.4.0</version>
+                <executions>
+                    <execution>
+                        <id>reqRes</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/test/resources/apiContract/reqRes.yaml</inputSpec>
+                            <generatorName>java</generatorName>
+                            <apiPackage>com.api.openApiGen</apiPackage>
+                            <modelPackage>com.api.openApiGenModel</modelPackage>
+                            <output>${project.basedir}/generated-sources</output>
+                            <generateApis>true</generateApis>
+                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <configOptions>
+                                <library>resttemplate</library>
+                                <useLombok>true</useLombok>
+                                <generateSupportingFiles>false</generateSupportingFiles>
+                                <openApiNullable>false</openApiNullable>
+                            </configOptions>
+                            <additionalProperties>
+                                <useJakartaEe>true</useJakartaEe>
+                                <apiDocs>false</apiDocs>
+                                <modleDocs>false</modleDocs>
+                            </additionalProperties>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
+
         </plugins>
     </build>
 
@@ -112,8 +149,70 @@
             <version>2.9.0</version>
         </dependency>
 
+        <!--  OPEN API DEPENDENCIES      -->
+
+    <!--OpenAPI Generator is a powerful, open-source tool used to automatically generate code
+     and documentation based on an OpenAPI Specification (OAS), formerly known as the Swagger Specification. Its primary uses include:-->
+        <!-- https://mvnrepository.com/artifact/org.openapitools/openapi-generator -->
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator</artifactId>
+            <version>6.4.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable -->
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-bean-validators -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-bean-validators</artifactId>
+            <version>2.10.5</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-core -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-core</artifactId>
+            <version>2.10.5</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-spring-webmvc -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-webmvc</artifactId>
+            <version>2.10.5</version>
+        </dependency>
+
     </dependencies>
     <!--   End of ~ D E P E N D E N C I E S   -->
+
+
 
 
 </project>

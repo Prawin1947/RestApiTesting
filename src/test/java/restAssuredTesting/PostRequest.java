@@ -1,5 +1,8 @@
 package restAssuredTesting;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jayway.jsonpath.Configuration;
@@ -7,6 +10,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
@@ -37,17 +41,25 @@ public class PostRequest {
         response.then().log().all();
       int statusCode = response.getStatusCode();
       ResponseBody responseBody =  response.body();
+        String name = response.jsonPath().get("First_Name").toString();
+        System.out.println(name);
         String responseInString = responseBody.asString();
 
         System.out.println("STATUS Code is : "+statusCode);
         Assert.assertEquals(statusCode,201);
 
+//        JsonArray jsonArray = JsonParser.parseString(responseInString).getAsJsonArray();
+//        for(JsonElement jsonElement : jsonArray){
+//          String value =   jsonElement.getAsJsonObject().get("First_Name").getAsString();
+//        }
+//
       JsonObject jsonObject = JsonParser.parseString(responseInString).getAsJsonObject();
       String firstName = jsonObject.get("First_Name").getAsString();
         System.out.println("First_Name "+firstName);
     }
 
     private String  loadPayload(){
+
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("requestJsons/postRequest.json");
         String payLoad = null;
@@ -94,11 +106,13 @@ public class PostRequest {
 
         requestSpecification.baseUri("https://reqres.in").basePath("api/users")
                 .headers(getHeader()).body(loadPayload());
-        requestSpecification.log().all();
 
+        System.out.println("Payload Before modification----------------------");
+        requestSpecification.log().all();
         //Modify the payload
-        HashMap<String,Object> dataMap = new HashMap<>();
+        HashMap<String,Object> dataMap = new HashMap();
         dataMap.put("id","25");
+        dataMap.put("favFoods.breakfast","dosa");
         String payLoadPostModify = modifyTheFieldInRequestPayLoad(dataMap);
 
         requestSpecification.body(payLoadPostModify);
@@ -126,5 +140,24 @@ public class PostRequest {
             context.set(entry.getKey(),entry.getValue());
         }
        return context.jsonString();
+    }
+
+    @Test
+    public void makePostCallByPassingRequestBodyInString(){
+
+        RequestSpecification requestSpecification = given();
+        requestSpecification.baseUri("https://reqres.in").basePath("api/users")
+                .header("content-type", ContentType.JSON)
+                .header("x-api-key","reqres-free-v1").body(new File("src/test/resources/requestJsons/postRequest.json"));
+
+        requestSpecification.log().all();
+
+        ValidatableResponse validatableResponse = requestSpecification.post().then();
+        validatableResponse.log().all();
+        int code = validatableResponse.extract().statusCode();
+        Assert.assertEquals(code,201);
+
+        String body = validatableResponse.extract().body().asString();
+
     }
 }

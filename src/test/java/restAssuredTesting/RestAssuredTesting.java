@@ -6,15 +6,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONArray;
 import org.testng.annotations.Test;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import static io.restassured.RestAssured.*;
 
@@ -59,6 +63,13 @@ public class RestAssuredTesting {
         requestSpecification.baseUri("https://reqres.in").basePath("api/users").queryParams("page","2")
                 .header("Content-Type", ContentType.JSON).header("x-api-key","reqres-free-v1");
         requestSpecification.log().all();
+
+
+//        Adding a header using Headers class.
+        ArrayList<Header> headerArrayList = new ArrayList<Header>();
+        headerArrayList.add(new Header("x-api-key","reqres-free-v1"));
+        Headers headers = new Headers(headerArrayList);
+        requestSpecification.headers(headers);
 
         Response response = requestSpecification.get();
         response.then().log().all();

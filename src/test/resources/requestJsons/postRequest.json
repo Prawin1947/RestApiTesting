@@ -6,7 +6,7 @@
   "jobs": ["Tester","Dev","DevOpsEng"],
   "favFoods": {
     "breakfast": "idly",
-    "lunch": "rece",
+    "lunch": "rice",
     "Dinner":["Chapati", "Rice","milk"]
   }
 }
