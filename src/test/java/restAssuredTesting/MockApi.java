@@ -56,14 +56,13 @@ public class MockApi {
     /**
      *  Steps to create a mock api in Json-server--
      *
-     * Create a json server using --> https://www.npmjs.com/package/json-server
+     * Create a json server using -->Steps mentioned in -->  https://www.npmjs.com/package/json-server
      *  ---  Open the command prompt in the IntelIj IDE project path ---
      * 1. node and npm should be installed [npm install -g npm@11.12.0]
      * 2. install the json server [npm install json-server]
      * 3. Create a db.json file in the project path and add your json request
      * 4. Start the json server [npx json-server db.json]
      * The server will start in http://localhost:3000
-     *
      */
     @Test
     public void mockApiTestingUsingJsonServer(){

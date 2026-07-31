@@ -1,8 +1,5 @@
 package restAssuredTesting;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jayway.jsonpath.Configuration;
@@ -20,7 +17,6 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import static io.restassured.RestAssured.*;
 
 import java.io.File;
 import java.io.InputStream;
@@ -28,71 +24,75 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static io.restassured.RestAssured.given;
+
 public class PostRequest {
 
     @Test
-    public void makePostCall(){
-    RequestSpecification requestSpecification = given();
+    public void makePostCall() {
+        RequestSpecification requestSpecification = RestAssured.given();
         requestSpecification.baseUri("https://reqres.in").basePath("api/users")
                 .header("content-type", ContentType.JSON)
-            .header("x-api-key","reqres-free-v1").body(loadPayload());
+                .header("x-api-key", "reqres-free-v1").body(loadPayload());
         requestSpecification.log().all();
-      Response response = requestSpecification.post();
+        Response response = requestSpecification.post();
         response.then().log().all();
-      int statusCode = response.getStatusCode();
-      ResponseBody responseBody =  response.body();
+        int statusCode = response.getStatusCode();
+        ResponseBody responseBody = response.body();
         String name = response.jsonPath().get("First_Name").toString();
+        //    String first_name =  response.jsonPath().getString("First_Name");
         System.out.println(name);
         String responseInString = responseBody.asString();
 
-        System.out.println("STATUS Code is : "+statusCode);
-        Assert.assertEquals(statusCode,201);
+        System.out.println("STATUS Code is : " + statusCode);
+        Assert.assertEquals(statusCode, 201);
 
 //        JsonArray jsonArray = JsonParser.parseString(responseInString).getAsJsonArray();
 //        for(JsonElement jsonElement : jsonArray){
 //          String value =   jsonElement.getAsJsonObject().get("First_Name").getAsString();
 //        }
-//
-      JsonObject jsonObject = JsonParser.parseString(responseInString).getAsJsonObject();
-      String firstName = jsonObject.get("First_Name").getAsString();
-        System.out.println("First_Name "+firstName);
+
+        JsonObject jsonObject = JsonParser.parseString(responseInString).getAsJsonObject();
+        String firstName = jsonObject.get("First_Name").getAsString();
+//        String age = jsonObject.get("age").getAsInt();
+        System.out.println("First_Name " + firstName);
     }
 
-    private String  loadPayload(){
+    private String loadPayload() {
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("requestJsons/postRequest.json");
         String payLoad = null;
 
-        try{
-            payLoad =  IOUtils.toString(inputStream,"UTF-8");
-        }catch (Exception e){
+        try {
+            payLoad = IOUtils.toString(inputStream, "UTF-8");
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       return payLoad;
+        return payLoad;
     }
 
 
     @Test
-    public void makePostCallBtReadingHeadersFromConfigFile(){
+    public void makePostCallBtReadingHeadersFromConfigFile() {
         RequestSpecification requestSpecification = given();
         requestSpecification.baseUri("https://reqres.in").basePath("api/users")
                 .headers(getHeader()).body(loadPayload());
         requestSpecification.log().all();
-        ValidatableResponse  validatableResponse = requestSpecification.post().then();
+        ValidatableResponse validatableResponse = requestSpecification.post().then();
         int statusCode = validatableResponse.extract().statusCode();
-        System.out.println("STATUS Code : "+statusCode);
+        System.out.println("STATUS Code : " + statusCode);
         String body = validatableResponse.extract().body().asString();
 
-        JsonObject jsonObject =  JsonParser.parseString(body).getAsJsonObject();
+        JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String firstName = jsonObject.get("First_Name").getAsString();
-        System.out.println("First_Name "+firstName);
+        System.out.println("First_Name " + firstName);
 
         JsonSchemaValidator jsonSchemaValidator = JsonSchemaValidator.matchesJsonSchemaInClasspath("Schema/postResponseSchema.jsd");
         validatableResponse.body(jsonSchemaValidator);
     }
 
-    private Map<String, Object> getHeader(){
+    private Map<String, Object> getHeader() {
         Config config = ConfigFactory.parseFile(new File("src/test/resources/config/application.conf"));
         Config reqResConfig = config.getConfig("api.reqRes");
         Map<String, Object> headers = reqResConfig.getObject("headers").unwrapped();
@@ -101,7 +101,7 @@ public class PostRequest {
 
 
     @Test
-    public void makePostCallByModifyingTheRequest(){
+    public void makePostCallByModifyingTheRequest() {
         RequestSpecification requestSpecification = given();
 
         requestSpecification.baseUri("https://reqres.in").basePath("api/users")
@@ -110,52 +110,52 @@ public class PostRequest {
         System.out.println("Payload Before modification----------------------");
         requestSpecification.log().all();
         //Modify the payload
-        HashMap<String,Object> dataMap = new HashMap();
-        dataMap.put("id","25");
-        dataMap.put("favFoods.breakfast","dosa");
+        HashMap<String, Object> dataMap = new HashMap();
+        dataMap.put("id", "25");
+        dataMap.put("favFoods.breakfast", "dosa");
         String payLoadPostModify = modifyTheFieldInRequestPayLoad(dataMap);
 
         requestSpecification.body(payLoadPostModify);
         System.out.println("Payload post modification----------------------");
         requestSpecification.log().body();
 
-        ValidatableResponse  validatableResponse = requestSpecification.post().then();
+        ValidatableResponse validatableResponse = requestSpecification.post().then();
         int statusCode = validatableResponse.extract().statusCode();
-        System.out.println("STATUS Code : "+statusCode);
+        System.out.println("STATUS Code : " + statusCode);
         String body = validatableResponse.extract().body().asString();
 
-        JsonObject jsonObject =  JsonParser.parseString(body).getAsJsonObject();
+        JsonObject jsonObject = JsonParser.parseString(body).getAsJsonObject();
         String firstName = jsonObject.get("First_Name").getAsString();
-        System.out.println("First_Name "+firstName);
+        System.out.println("First_Name " + firstName);
 
         JsonSchemaValidator jsonSchemaValidator = JsonSchemaValidator.matchesJsonSchemaInClasspath("Schema/postResponseSchema.jsd");
         validatableResponse.body(jsonSchemaValidator);
     }
 
-    private String modifyTheFieldInRequestPayLoad(HashMap<String,Object> dataMap){
-       String payLoad = loadPayload();
+    private String modifyTheFieldInRequestPayLoad(HashMap<String, Object> dataMap) {
+        String payLoad = loadPayload();
         DocumentContext context = JsonPath.using(Configuration.defaultConfiguration()).parse(payLoad);
-        Set<Map.Entry<String,Object>> entries = dataMap.entrySet();
-        for(Map.Entry<String,Object> entry:entries){
-            context.set(entry.getKey(),entry.getValue());
+        Set<Map.Entry<String, Object>> entries = dataMap.entrySet();
+        for (Map.Entry<String, Object> entry : entries) {
+            context.set(entry.getKey(), entry.getValue());
         }
-       return context.jsonString();
+        return context.jsonString();
     }
 
     @Test
-    public void makePostCallByPassingRequestBodyInString(){
+    public void makePostCallByPassingRequestBodyInString() {
 
         RequestSpecification requestSpecification = given();
         requestSpecification.baseUri("https://reqres.in").basePath("api/users")
                 .header("content-type", ContentType.JSON)
-                .header("x-api-key","reqres-free-v1").body(new File("src/test/resources/requestJsons/postRequest.json"));
+                .header("x-api-key", "reqres-free-v1").body(new File("src/test/resources/requestJsons/postRequest.json"));
 
         requestSpecification.log().all();
 
         ValidatableResponse validatableResponse = requestSpecification.post().then();
         validatableResponse.log().all();
         int code = validatableResponse.extract().statusCode();
-        Assert.assertEquals(code,201);
+        Assert.assertEquals(code, 201);
 
         String body = validatableResponse.extract().body().asString();
 

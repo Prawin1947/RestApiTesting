@@ -52,6 +52,5 @@ public class ReqResGet {
         Assert.assertEquals(fname,"Tobias");
         // Schema Validation
         response.then().body(JsonSchemaValidator.matchesJsonSchema(new File("D:\\IDEProjects\\RestAssuredAPI\\src\\test\\resources\\Schema\\getReqSchema.json")));
-
     }
 }
